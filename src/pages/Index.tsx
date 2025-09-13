@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Menu, Search, ArrowUpDown, MessageCircle } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { ChatBot } from '../components/ChatBot';
-import { AccountMenu } from '../components/AccountMenu';
-import { CitySelector } from '../components/CitySelector';
-import { NearestBusStops } from '../components/NearestBusStops';
-import { SloganArea } from '../components/SloganArea';
-import { MapView } from '../components/MapView';
-import { useBusTracking } from '../hooks/useBusTracking';
-import { busRoutes, busStops } from '../lib/mockData';
-import { StopInfo } from '../components/StopInfo';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ChatBot } from '@/components/ChatBot';
+import { AccountMenu } from '@/components/AccountMenu';
+import { CitySelector } from '@/components/CitySelector';
+import { NearestBusStops } from '@/components/NearestBusStops';
+import { SloganArea } from '@/components/SloganArea';
+import { MapView } from '@/components/MapView';
+import { useBusTracking } from '@/hooks/useBusTracking';
+import { busRoutes, busStops } from '@/lib/mockData';
+import { ArrivalTimes } from '@/components/ArrivalTimes';
+import { StopInfo } from '@/components/StopInfo';
 
 interface SearchResult {
   id: string;
