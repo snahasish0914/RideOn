@@ -11,7 +11,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -27,28 +27,37 @@ interface BusStopSelectorProps {
   stops: BusStop[];
 }
 
-export const BusStopSelector = ({ value, onValueChange, placeholder, stops }: BusStopSelectorProps) => {
+export const BusStopSelector = ({
+  value,
+  onValueChange,
+  placeholder,
+  stops,
+}: BusStopSelectorProps) => {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="relative">
-          {/* We remove the Search icon from here and add it directly to CommandInput */}
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-full justify-start text-left font-normal h-auto py-3 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
-          >
-            {value ? value : placeholder}
-          </Button>
-        </div>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full h-auto py-3 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 font-normal justify-start text-left relative"
+        >
+          {/* Left-aligned search icon inside the button */}
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+          {value ? value : placeholder}
+        </Button>
       </PopoverTrigger>
+
       <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 max-w-sm">
         <Command>
-          {/* The CommandInput component already has a built-in search icon. We'll use that instead. */}
-          <CommandInput placeholder={placeholder} />
+          {/* Input with Search icon */}
+          <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
+            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <CommandInput placeholder={placeholder} className="flex-1" />
+          </div>
+
           <CommandList>
             <CommandEmpty>No bus stops found.</CommandEmpty>
             <CommandGroup>
