@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { Menu, Search, ArrowUpDown, MessageCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ChatBot } from '@/components/ChatBot';
-import { AccountMenu } from '@/components/AccountMenu';
-import { CitySelector } from '@/components/CitySelector';
-import { NearestBusStops } from '@/components/NearestBusStops';
-import { SloganArea } from '@/components/SloganArea';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { ChatBot } from '../components/ChatBot';
+import { AccountMenu } from '../components/AccountMenu';
+import { CitySelector } from '../components/CitySelector';
+import { NearestBusStops } from '../components/NearestBusStops';
+import { SloganArea } from '../components/SloganArea';
+import { MapView } from '../components/MapView';
+import { useBusTracking } from '../hooks/useBusTracking';
+import { busRoutes, busStops } from '../lib/mockData';
+import { StopInfo } from '../components/StopInfo';
 
 interface SearchResult {
   id: string;
@@ -34,6 +38,10 @@ export default function RideOnApp() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [selectedStop, setSelectedStop] = useState<string | null>(null);
+
+  const { buses, getArrivalTimes } = useBusTracking();
+  const arrivalTimes = selectedStop ? getArrivalTimes(selectedStop) : [];
 
   const swapLocations = () => {
     const temp = fromLocation;
@@ -247,49 +255,22 @@ export default function RideOnApp() {
       </div>
 
       {/* Map Section */}
-      <div className="relative h-80 bg-gray-200 mx-4 mb-6 rounded-lg">
-        {/* Google Maps Iframe */}
-        <iframe
-          src={`https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d227748.99842513593!2d75.65046970898438!3d26.88544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x396c4adf4c57e281%3A0xce1c63a0cf22e09!2s${selectedCity}!3m2!1d26.8518188!2d75.8346067!4m5!1s0x396db1c5f0c3c5b7%3A0x61c1b8b9b7b8b8b8!2s${selectedCity}!3m2!1d26.9124336!2d75.7872709!5e0!3m2!1sen!2sin!4v1647875643123!5m2!1sen!2sin`}
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          className="w-full h-full"
+      <div className="relative h-80 bg-gray-200 mx-4 mb-6 rounded-lg overflow-hidden shadow-lg">
+        <MapView 
+          buses={buses} 
+          stops={busStops} 
+          routes={busRoutes} 
+          selectedRoute={selectedVehicle === 'bus' ? 'route1' : 'all'} 
+          onStopClick={setSelectedStop}
         />
-
-        {/* Route Overlay */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Route Line */}
-          <svg className="w-full h-full">
-            <defs>
-              <pattern id="dashed" patternUnits="userSpaceOnUse" width="10" height="2">
-                <rect width="5" height="2" fill="#2E7D32" />
-                <rect x="5" width="5" height="2" fill="transparent" />
-              </pattern>
-            </defs>
-            <path
-              d="M 50 200 Q 150 100 250 150 Q 300 180 320 220"
-              stroke="url(#dashed)"
-              strokeWidth="3"
-              fill="none"
-              strokeDasharray="8,4"
-            />
-          </svg>
-
-          {/* Bus Stop Circles */}
-          <div className="absolute top-48 left-12 w-4 h-4 bg-white border-3 border-[#2E7D32] rounded-full shadow-lg"></div>
-          <div className="absolute top-24 left-36 w-4 h-4 bg-white border-3 border-[#2E7D32] rounded-full shadow-lg"></div>
-          <div className="absolute top-36 right-16 w-4 h-4 bg-white border-3 border-[#2E7D32] rounded-full shadow-lg"></div>
-
-          {/* Bus Icon */}
-          <div className="absolute top-32 left-48 text-2xl transform -translate-x-1/2 -translate-y-1/2">
-            🚌
-          </div>
-        </div>
       </div>
+
+      {/* Next Arrivals section. This will show arrival times when a stop is selected. */}
+      {selectedStop && (
+        <div className="px-4 mb-6">
+          <StopInfo stopId={selectedStop} arrivalTimes={arrivalTimes} />
+        </div>
+      )}
 
       {/* Nearest Bus Stops Section */}
       <NearestBusStops />
@@ -297,7 +278,7 @@ export default function RideOnApp() {
       {/* Slogan Area */}
       <SloganArea />
 
-      {/* Floating Chat Button (moved and changed to fixed positioning) */}
+      {/* Floating Chat Button (already fixed in previous step) */}
       <button
         onClick={() => setIsChatOpen(true)}
         className="fixed bottom-4 right-4 w-14 h-14 bg-[#2E7D32] rounded-full shadow-lg flex items-center justify-center hover:bg-[#1B5E20] transition-colors z-50"
