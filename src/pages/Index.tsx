@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { Menu, Search, ArrowUpDown, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ChatBot } from '@/components/ChatBot';
 import { AccountMenu } from '@/components/AccountMenu';
 import { CitySelector } from '@/components/CitySelector';
 import { NearestBusStops } from '@/components/NearestBusStops';
 import { SloganArea } from '@/components/SloganArea';
+import { BusStopSelector } from '@/components/BusStopSelector';
 import { MapView } from '@/components/MapView';
 import { useBusTracking } from '@/hooks/useBusTracking';
 import { busRoutes, busStops } from '@/lib/mockData';
-import { ArrivalTimes } from '@/components/ArrivalTimes';
 import { StopInfo } from '@/components/StopInfo';
 
 interface SearchResult {
@@ -121,7 +120,7 @@ export default function RideOnApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-sm mx-auto relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 max-w-sm mx-auto relative">
       {/* Header Section */}
       <div className="bg-gradient-to-r from-[#2E7D32] to-[#81C784] px-4 py-6 rounded-b-3xl">
         <div className="flex items-center justify-between mb-8">
@@ -168,16 +167,13 @@ export default function RideOnApp() {
       {/* Search Section */}
       <div className="px-4 py-6 relative z-10">
         <div className="space-y-4">
-          {/* From Input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-            <Input
-              placeholder="From"
-              value={fromLocation}
-              onChange={(e) => setFromLocation(e.target.value)}
-              className="pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
-            />
-          </div>
+          {/* From Input with suggestions */}
+          <BusStopSelector
+            placeholder="From"
+            value={fromLocation}
+            onValueChange={setFromLocation}
+            stops={busStops}
+          />
 
           {/* Swap Button */}
           <div className="flex justify-center">
@@ -189,16 +185,13 @@ export default function RideOnApp() {
             </button>
           </div>
 
-          {/* To Input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-            <Input
-              placeholder="To"
-              value={toLocation}
-              onChange={(e) => setToLocation(e.target.value)}
-              className="pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
-            />
-          </div>
+          {/* To Input with suggestions */}
+          <BusStopSelector
+            placeholder="To"
+            value={toLocation}
+            onValueChange={setToLocation}
+            stops={busStops}
+          />
 
           {/* Find Bus Button */}
           <Button
@@ -257,11 +250,9 @@ export default function RideOnApp() {
 
       {/* Map Section */}
       <div className="relative h-80 bg-gray-200 mx-4 mb-6 rounded-lg overflow-hidden shadow-lg">
-        <MapView 
-          buses={buses} 
-          stops={busStops} 
-          routes={busRoutes} 
-          selectedRoute={selectedVehicle === 'bus' ? 'route1' : 'all'} 
+        <MapView
+          buses={buses}
+          stops={busStops}
           onStopClick={setSelectedStop}
         />
       </div>
