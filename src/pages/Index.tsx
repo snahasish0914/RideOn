@@ -70,7 +70,7 @@ export default function RideOnApp() {
     ];
 
     setSearchResults(mockResults);
-    
+
     // Add to search history
     const newHistoryItem: HistoryItem = {
       vehicle: selectedVehicle === 'bus' ? '🚌' : '🛺',
@@ -125,7 +125,7 @@ export default function RideOnApp() {
             <Menu className="w-6 h-6" />
           </Button>
           <h1 className="text-white text-xl font-bold">RideOn</h1>
-          <CitySelector 
+          <CitySelector
             selectedCity={selectedCity}
             onCityChange={setSelectedCity}
           />
@@ -136,8 +136,8 @@ export default function RideOnApp() {
           <button
             onClick={() => setSelectedVehicle('bus')}
             className={`w-20 h-20 rounded-xl shadow-lg flex items-center justify-center transition-all ${
-              selectedVehicle === 'bus' 
-                ? 'bg-white shadow-xl scale-105' 
+              selectedVehicle === 'bus'
+                ? 'bg-white shadow-xl scale-105'
                 : 'bg-white/80 shadow-md'
             }`}
           >
@@ -146,8 +146,8 @@ export default function RideOnApp() {
           <button
             onClick={() => setSelectedVehicle('auto')}
             className={`w-20 h-20 rounded-xl shadow-lg flex items-center justify-center transition-all ${
-              selectedVehicle === 'auto' 
-                ? 'bg-white shadow-xl scale-105' 
+              selectedVehicle === 'auto'
+                ? 'bg-white shadow-xl scale-105'
                 : 'bg-white/80 shadow-md'
             }`}
           >
@@ -192,7 +192,7 @@ export default function RideOnApp() {
           </div>
 
           {/* Find Bus Button */}
-          <Button 
+          <Button
             onClick={handleFindBus}
             className="w-full bg-[#2E7D32] hover:bg-[#1B5E20] text-white py-3 rounded-lg font-medium text-lg shadow-lg"
           >
@@ -247,7 +247,7 @@ export default function RideOnApp() {
       </div>
 
       {/* Map Section */}
-      <div className="relative h-80 bg-gray-200 mx-4 mb-6 rounded-lg overflow-hidden shadow-lg">
+      <div className="relative h-80 bg-gray-200 mx-4 mb-6 rounded-lg">
         {/* Google Maps Iframe */}
         <iframe
           src={`https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d227748.99842513593!2d75.65046970898438!3d26.88544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x396c4adf4c57e281%3A0xce1c63a0cf22e09!2s${selectedCity}!3m2!1d26.8518188!2d75.8346067!4m5!1s0x396db1c5f0c3c5b7%3A0x61c1b8b9b7b8b8b8!2s${selectedCity}!3m2!1d26.9124336!2d75.7872709!5e0!3m2!1sen!2sin!4v1647875643123!5m2!1sen!2sin`}
@@ -259,7 +259,7 @@ export default function RideOnApp() {
           referrerPolicy="no-referrer-when-downgrade"
           className="w-full h-full"
         />
-        
+
         {/* Route Overlay */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Route Line */}
@@ -278,25 +278,17 @@ export default function RideOnApp() {
               strokeDasharray="8,4"
             />
           </svg>
-          
+
           {/* Bus Stop Circles */}
           <div className="absolute top-48 left-12 w-4 h-4 bg-white border-3 border-[#2E7D32] rounded-full shadow-lg"></div>
           <div className="absolute top-24 left-36 w-4 h-4 bg-white border-3 border-[#2E7D32] rounded-full shadow-lg"></div>
           <div className="absolute top-36 right-16 w-4 h-4 bg-white border-3 border-[#2E7D32] rounded-full shadow-lg"></div>
-          
+
           {/* Bus Icon */}
           <div className="absolute top-32 left-48 text-2xl transform -translate-x-1/2 -translate-y-1/2">
             🚌
           </div>
         </div>
-
-        {/* Floating Chat Button */}
-        <button 
-          onClick={() => setIsChatOpen(true)}
-          className="absolute bottom-4 right-4 w-14 h-14 bg-[#2E7D32] rounded-full shadow-lg flex items-center justify-center hover:bg-[#1B5E20] transition-colors"
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-        </button>
       </div>
 
       {/* Nearest Bus Stops Section */}
@@ -304,6 +296,14 @@ export default function RideOnApp() {
 
       {/* Slogan Area */}
       <SloganArea />
+
+      {/* Floating Chat Button (moved and changed to fixed positioning) */}
+      <button
+        onClick={() => setIsChatOpen(true)}
+        className="fixed bottom-4 right-4 w-14 h-14 bg-[#2E7D32] rounded-full shadow-lg flex items-center justify-center hover:bg-[#1B5E20] transition-colors z-50"
+      >
+        <MessageCircle className="w-6 h-6 text-white" />
+      </button>
 
       {/* ChatBot */}
       <ChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
