@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
 
 // Custom bus icon
 const busIcon = L.icon({
-  iconUrl: '/images/bus-icon.png', // Placeholder URL, replace with your bus image
+  iconUrl: 'https://cdn-icons-png.freepik.com/512/6395/6395367.png', // Placeholder URL, replace with your bus image
   iconSize: [32, 32],
   iconAnchor: [16, 16],
 });
@@ -110,3 +110,4 @@ export const MapView = ({ buses, stops, onStopClick }: MapViewProps) => {
     />
   );
 };
+
