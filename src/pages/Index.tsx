@@ -85,7 +85,7 @@ export default function RideOnApp() {
       route: selectedVehicle === 'bus' ? '6A' : '3A',
       from: fromLocation,
       to: toLocation,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + (Math.random() > 0.5 ? ' AM' : ' PM')
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     // Store in localStorage for persistence
@@ -286,3 +286,4 @@ export default function RideOnApp() {
     </div>
   );
 }
+
