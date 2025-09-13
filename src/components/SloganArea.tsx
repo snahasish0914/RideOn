@@ -14,7 +14,7 @@ export const SloganArea = () => {
         </h2>
         <div className="mt-6">
           <p className="text-xl font-medium text-gray-600">
-            No Wait, Just Go
+            Never Miss a Ride with, RideOn
           </p>
         </div>
       </div>
@@ -31,4 +31,5 @@ export const SloganArea = () => {
       <div className="h-16"></div>
     </div>
   );
+
 };
