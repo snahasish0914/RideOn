@@ -57,23 +57,6 @@ export const AccountMenu = ({ isOpen, onClose }: AccountMenuProps) => {
 
   return (
     <div className="fixed inset-0 bg-white z-50 max-w-sm mx-auto">
-      {/* Status Bar */}
-      <div className="flex justify-between items-center px-4 py-2 text-black text-sm font-medium bg-white">
-        <span>11:37</span>
-        <div className="flex items-center gap-1">
-          <div className="flex gap-1">
-            <div className="w-1 h-3 bg-black rounded-full"></div>
-            <div className="w-1 h-3 bg-black rounded-full"></div>
-            <div className="w-1 h-3 bg-black rounded-full"></div>
-            <div className="w-1 h-3 bg-gray-300 rounded-full"></div>
-          </div>
-          <span className="text-xs">46°</span>
-          <div className="w-4 h-2 border border-black rounded-sm">
-            <div className="w-3 h-1 bg-black rounded-sm m-0.5"></div>
-          </div>
-          <span className="text-xs">60%</span>
-        </div>
-      </div>
 
       {/* Header */}
       <div className="flex items-center px-4 py-4 border-b border-gray-200">
@@ -119,4 +102,5 @@ export const AccountMenu = ({ isOpen, onClose }: AccountMenuProps) => {
       </div>
     </div>
   );
+
 };
