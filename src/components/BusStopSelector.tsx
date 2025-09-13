@@ -1,7 +1,7 @@
 // File: src/components/BusStopSelector.tsx
 
 import * as React from "react";
-import { Check } from "lucide-react";
+import { Check, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -28,17 +28,34 @@ interface BusStopSelectorProps {
 
 export const BusStopSelector = ({ value, onValueChange, placeholder, stops }: BusStopSelectorProps) => {
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState(value);
+
+  const filteredStops = React.useMemo(() => {
+    if (!query) {
+      return stops;
+    }
+    return stops.filter((stop) => stop.name.toLowerCase().includes(query.toLowerCase()));
+  }, [query, stops]);
+
+  const handleSelect = (stopName: string) => {
+    onValueChange(stopName);
+    setQuery(stopName);
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div className="relative">
-          <Command>
+          <Command className="h-auto">
             <CommandInput 
               placeholder={placeholder}
+              value={query}
+              onValueChange={setQuery}
               className="py-3 pl-10 pr-4"
             />
           </Command>
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 max-w-sm">
@@ -46,13 +63,12 @@ export const BusStopSelector = ({ value, onValueChange, placeholder, stops }: Bu
           <CommandList>
             <CommandEmpty>No bus stops found.</CommandEmpty>
             <CommandGroup>
-              {stops.map((stop) => (
+              {filteredStops.map((stop) => (
                 <CommandItem
                   key={stop.id}
                   value={stop.name}
                   onSelect={(currentValue) => {
-                    onValueChange(currentValue === value ? "" : currentValue);
-                    setOpen(false);
+                    handleSelect(currentValue === value ? "" : currentValue);
                   }}
                 >
                   <Check
