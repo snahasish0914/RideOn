@@ -45,11 +45,7 @@ export const BusStopSelector = ({ value, onValueChange, placeholder, stops }: Bu
               setQuery(newValue);
               onValueChange(newValue);
               // Show suggestions only when the user starts typing
-              if (newValue.length > 0) {
-                setIsOpen(true);
-              } else {
-                setIsOpen(false);
-              }
+              setIsOpen(newValue.length > 0);
             }}
             className="pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
           />
