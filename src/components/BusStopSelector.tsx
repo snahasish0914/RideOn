@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import { Search, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -42,10 +41,16 @@ export const BusStopSelector = ({ value, onValueChange, placeholder, stops }: Bu
             placeholder={placeholder}
             value={query}
             onChange={(e) => {
-              setQuery(e.target.value);
-              onValueChange(e.target.value);
+              const newValue = e.target.value;
+              setQuery(newValue);
+              onValueChange(newValue);
+              // Show suggestions only when the user starts typing
+              if (newValue.length > 0) {
+                setIsOpen(true);
+              } else {
+                setIsOpen(false);
+              }
             }}
-            onFocus={() => setIsOpen(true)}
             className="pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
           />
         </div>
