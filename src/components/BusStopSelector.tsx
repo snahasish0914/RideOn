@@ -1,12 +1,23 @@
 // File: src/components/BusStopSelector.tsx
 
-import { useState, useMemo } from 'react';
-import { Search, Check } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { BusStop } from '@/lib/mockData';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { Check, Search } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { BusStop } from "@/lib/mockData";
 
 interface BusStopSelectorProps {
   value: string;
@@ -16,65 +27,46 @@ interface BusStopSelectorProps {
 }
 
 export const BusStopSelector = ({ value, onValueChange, placeholder, stops }: BusStopSelectorProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState(value);
-
-  const filteredStops = useMemo(() => {
-    if (!query) {
-      return stops;
-    }
-    return stops.filter((stop) => stop.name.toLowerCase().includes(query.toLowerCase()));
-  }, [query, stops]);
-
-  const handleSelect = (stopName: string) => {
-    onValueChange(stopName);
-    setQuery(stopName);
-    setIsOpen(false);
-  };
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-          <Input
-            placeholder={placeholder}
-            value={query}
-            onChange={(e) => {
-              const newValue = e.target.value;
-              setQuery(newValue);
-              onValueChange(newValue);
-              // Open the popover if there's text, otherwise close it
-              setIsOpen(newValue.length > 0);
-            }}
-            className="pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
-          />
-        </div>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-start text-left font-normal h-auto py-3 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 placeholder-gray-500"
+        >
+          <Search className="absolute left-3 w-5 h-5 text-gray-500" />
+          {value ? value : placeholder}
+        </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[calc(100vw-32px)] max-w-sm p-0">
-        <ScrollArea className="h-[200px]">
-          {filteredStops.length > 0 ? (
-            <div className="p-1">
-              {filteredStops.map((stop) => (
-                <button
-                  key={stop.id}
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 max-w-sm">
+        <Command>
+          <CommandInput placeholder={placeholder} />
+          <CommandEmpty>No bus stops found.</CommandEmpty>
+          <CommandGroup>
+            {stops.map((stop) => (
+              <CommandItem
+                key={stop.id}
+                value={stop.name}
+                onSelect={(currentValue) => {
+                  onValueChange(currentValue === value ? "" : currentValue);
+                  setOpen(false);
+                }}
+              >
+                <Check
                   className={cn(
-                    'w-full flex items-center justify-between p-2 rounded-md text-sm cursor-pointer hover:bg-gray-100',
-                    value === stop.name ? 'bg-gray-100' : ''
+                    "mr-2 h-4 w-4",
+                    value === stop.name ? "opacity-100" : "opacity-0"
                   )}
-                  onClick={() => handleSelect(stop.name)}
-                >
-                  <span className="truncate">{stop.name}</span>
-                  {value === stop.name && <Check className="w-4 h-4 text-green-600" />}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="p-4 text-center text-sm text-gray-500">
-              No bus stops found.
-            </div>
-          )}
-        </ScrollArea>
+                />
+                {stop.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
       </PopoverContent>
     </Popover>
   );
