@@ -10,6 +10,7 @@ import { SloganArea } from '@/components/SloganArea';
 import { BusStopSelector } from '@/components/BusStopSelector';
 import { busStops } from '@/lib/mockData';
 
+
 interface SearchResult {
   id: string;
   route: string;
@@ -304,3 +305,4 @@ export default function RideOnApp() {
     </div>
   );
 }
+
