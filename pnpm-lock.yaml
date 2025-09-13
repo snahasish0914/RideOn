@@ -116,6 +116,9 @@ dependencies:
   framer-motion:
     specifier: ^11.0.0
     version: 11.18.2(react-dom@19.1.1)(react@19.1.1)
+  geolib:
+    specifier: ^3.3.4
+    version: 3.3.4
   input-otp:
     specifier: ^1.2.4
     version: 1.4.2(react-dom@19.1.1)(react@19.1.1)
@@ -3583,6 +3586,10 @@ packages:
 
   /function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  /geolib@3.3.4:
+    resolution: {integrity: sha512-EicrlLLL3S42gE9/wde+11uiaYAaeSVDwCUIv2uMIoRBfNJCn8EsSI+6nS3r4TCKDO6+RQNM9ayLq2at+oZQWQ==}
+    dev: false
 
   /get-nonce@1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
